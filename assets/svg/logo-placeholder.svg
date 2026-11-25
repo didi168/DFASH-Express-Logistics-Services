@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 388 76" width="388" height="76" role="img" aria-labelledby="dfash-logo-title">
+  <title id="dfash-logo-title">D-Fash Express Logistics Services</title>
+  <defs>
+    <radialGradient id="dfash-glow" cx="50%" cy="50%" r="52%">
+      <stop offset="0%" stop-color="#F5A508" stop-opacity="0.45"/>
+      <stop offset="65%" stop-color="#D97706" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#09090B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="dfash-wing-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FD8701"/>
+      <stop offset="48%" stop-color="#FFB800"/>
+      <stop offset="100%" stop-color="#FFE040"/>
+    </linearGradient>
+    <linearGradient id="dfash-word-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE040"/>
+      <stop offset="52%" stop-color="#FFB800"/>
+      <stop offset="100%" stop-color="#E08600"/>
+    </linearGradient>
+    <linearGradient id="dfash-rule-left" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#F5A508" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#FFB800" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="dfash-rule-right" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#FFB800" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#F5A508" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Subtle warm gold ambient aura behind the emblem -->
+  <ellipse cx="52" cy="38" rx="46" ry="30" fill="url(#dfash-glow)"/>
+
+  <!-- Winged speed blades + geometric D/E emblem -->
+  <g transform="translate(8, 12)">
+    <path d="M12 4 H36 C43 4 47 10 50 17 C43 13 35 12 24 12 C18 12 14 9 12 4 Z" fill="url(#dfash-wing-gold)"/>
+    <path d="M7 18 H38 C46 18 51 24 55 32 C47 28 38 27 22 27 C14 27 9 23 7 18 Z" fill="url(#dfash-wing-gold)"/>
+    <path d="M2 33 H41 C49 33 55 39 59 47 C49 47 35 47 18 47 C9 47 4 41 2 33 Z" fill="url(#dfash-wing-gold)"/>
+    <path d="M46 4 H66 C80 4 89 13 89 25.5 C89 38 80 47 66 47 H61 C58 40 53 34 47 31 H69 V24 H52 C49 20 46 16 42 13 H69 V11 H49 Z" fill="#09090B" stroke="#FFB800" stroke-width="1.4" stroke-linejoin="round"/>
+    <circle cx="94" cy="40" r="4.2" fill="none" stroke="#FFB800" stroke-width="1"/>
+    <text x="94" y="42.4" text-anchor="middle" fill="#FFB800" font-family="Arial, sans-serif" font-size="6.2" font-weight="700">R</text>
+  </g>
+
+  <!-- Wordmark with explicit textLength so system fallback fonts never clip -->
+  <text x="114" y="41" textLength="262" lengthAdjust="spacingAndGlyphs" fill="url(#dfash-word-gold)" font-family="'Arial Narrow', 'Helvetica Neue', Arial, sans-serif" font-size="31" font-weight="900">D-FASH EXPRESS</text>
+
+  <!-- Subtitle flanked by tapered gold hairlines -->
+  <rect x="114" y="53" width="32" height="1.6" rx="0.8" fill="url(#dfash-rule-left)"/>
+  <text x="245" y="57.5" text-anchor="middle" textLength="176" lengthAdjust="spacingAndGlyphs" fill="#FAF9F6" font-family="Arial, Helvetica, sans-serif" font-size="11.2" font-weight="700" letter-spacing="2">LOGISTICS SERVICES</text>
+  <rect x="344" y="53" width="32" height="1.6" rx="0.8" fill="url(#dfash-rule-right)"/>
+</svg>

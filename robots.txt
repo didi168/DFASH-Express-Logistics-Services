@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# EDIT: Update to your live domain or GitHub Pages URL before publishing
+Sitemap: https://dfashexpresslogistics.com/sitemap.xml
