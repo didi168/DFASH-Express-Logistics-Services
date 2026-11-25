@@ -48,12 +48,13 @@ All visual tokens live inside `:root` at the top of `css/style.css`:
 
 ## Swapping the Logo in One Edit
 
-The header, mobile drawer, footer, and `404.html` all reference a single file:
+The site uses clean scalable SVGs for both dark and white surfaces:
 
-- `assets/svg/logo-placeholder.svg` (horizontal lockup)
+- `assets/svg/logo-on-light.svg` (pure white floating header)
+- `assets/svg/logo-placeholder.svg` (obsidian mobile drawer, footer & `404.html`)
 - `assets/svg/favicon.svg` (square browser tab emblem)
 
-To switch to your master vector logo later, simply overwrite `assets/svg/logo-placeholder.svg` (keeping a horizontal aspect ratio around `340×76`) and `assets/svg/favicon.svg` (`64×64`). No HTML edits are required.
+To switch to your master vector logo later, simply overwrite those files (keeping horizontal `388×76` aspect ratio and `64×64` favicon). No HTML edits are required.
 
 ---
 

@@ -1,10 +1,10 @@
 /* ============================================================================
-   DFASH Express Logistics Services — Main Script
+   DFASH Express Logistics Services — Main Script (ELIOS Layout Edition)
    Blocks:
    1. Environment & Reduced-Motion Guard
    2. Smooth Scroll (Lenis on fine-pointer desktop only; native touch preserved)
    3. GSAP + ScrollTrigger Motion & Failsafe Reveal
-   4. Services Carousel (Swiper)
+   4. Services Showcase Carousel & Customer Proof Carousel (Swiper)
    5. Sticky Header State & Active Nav Highlight
    6. Accessible Mobile Drawer (Focus Trap, Esc, Outside Tap, Scroll Lock)
    7. FAQ Accordion
@@ -54,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Anchor scrolling via Lenis (or native smooth/auto scroll)
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (event) => {
       const targetId = anchor.getAttribute('href');
@@ -63,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!targetEl) return;
 
       event.preventDefault();
-      const headerHeight = document.getElementById('site-header')?.offsetHeight || 78;
+      const headerHeight = document.getElementById('site-header')?.offsetHeight || 74;
 
       if (lenis) {
         lenis.scrollTo(targetEl, { offset: -headerHeight });
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
      3. GSAP + ScrollTrigger Reveals & Failsafe
      -------------------------------------------------------------------------- */
   const revealAllFallback = () => {
-    document.querySelectorAll('.hero-anim, .hero-van-anim, .reveal').forEach((el) => {
+    document.querySelectorAll('.hero-anim, .reveal').forEach((el) => {
       el.style.opacity = '1';
       el.style.transform = 'none';
     });
@@ -92,28 +91,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     mm.add('(min-width: 768px)', () => {
       window.gsap.from('.hero-anim', {
-        y: 26,
+        y: 22,
         opacity: 0,
-        duration: 0.78,
+        duration: 0.72,
         stagger: 0.1,
-        ease: 'power3.out',
-        clearProps: 'transform,opacity',
-      });
-
-      window.gsap.from('.hero-van-anim', {
-        x: -36,
-        opacity: 0,
-        duration: 0.9,
-        delay: 0.25,
         ease: 'power3.out',
         clearProps: 'transform,opacity',
       });
 
       window.gsap.utils.toArray('.reveal').forEach((el) => {
         window.gsap.from(el, {
-          y: 28,
+          y: 24,
           opacity: 0,
-          duration: 0.68,
+          duration: 0.65,
           ease: 'power3.out',
           clearProps: 'transform,opacity',
           scrollTrigger: {
@@ -125,12 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Lighter reveal motion on small mobile screens (no pinning, no heavy scrub)
     mm.add('(max-width: 767px)', () => {
       window.gsap.from('.hero-anim', {
-        y: 16,
+        y: 14,
         opacity: 0,
-        duration: 0.55,
+        duration: 0.52,
         stagger: 0.08,
         ease: 'power2.out',
         clearProps: 'transform,opacity',
@@ -138,9 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       window.gsap.utils.toArray('.reveal').forEach((el) => {
         window.gsap.from(el, {
-          y: 16,
+          y: 14,
           opacity: 0,
-          duration: 0.5,
+          duration: 0.48,
           ease: 'power2.out',
           clearProps: 'transform,opacity',
           scrollTrigger: {
@@ -163,9 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
     revealAllFallback();
   }
 
-  // Failsafe so no element can remain hidden if a CDN hiccups
+  // Failsafe reveal guard
   window.setTimeout(() => {
-    document.querySelectorAll('.hero-anim, .hero-van-anim').forEach((el) => {
+    document.querySelectorAll('.hero-anim').forEach((el) => {
       if (parseFloat(getComputedStyle(el).opacity) < 0.9) {
         el.style.opacity = '1';
         el.style.transform = 'none';
@@ -174,15 +163,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 1800);
 
   /* --------------------------------------------------------------------------
-     4. Services Carousel (Swiper)
+     4. Services Split Showcase Carousel & Reviews Carousel (Swiper)
      -------------------------------------------------------------------------- */
   const servicesEl = document.getElementById('services-swiper');
   if (servicesEl && hasSwiper) {
     const servicesSwiper = new window.Swiper(servicesEl, {
       slidesPerView: 1,
-      spaceBetween: 20,
+      spaceBetween: 16,
+      autoHeight: false,
       grabCursor: true,
-      watchOverflow: true,
       preventClicks: true,
       preventClicksPropagation: true,
       touchAngle: 35,
@@ -195,24 +184,49 @@ document.addEventListener('DOMContentLoaded', () => {
         enabled: true,
         onlyInViewport: true,
       },
-      navigation: {
-        nextEl: '.services-next',
-        prevEl: '.services-prev',
-      },
       pagination: {
         el: '.services-pagination',
         clickable: true,
       },
-      breakpoints: {
-        640: { slidesPerView: 2, spaceBetween: 22 },
-        1024: { slidesPerView: 3, spaceBetween: 26 },
-      },
     });
 
-    // Pause autoplay if ever enabled later; keyboard & resize stay sharp
-    servicesEl.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') servicesSwiper.slideNext();
-      if (e.key === 'ArrowLeft') servicesSwiper.slidePrev();
+    // Wire all slide-internal prev/next square buttons cleanly
+    servicesEl.addEventListener('click', (event) => {
+      if (event.target.closest('.services-next')) {
+        if (servicesSwiper.isEnd) servicesSwiper.slideTo(0);
+        else servicesSwiper.slideNext();
+      } else if (event.target.closest('.services-prev')) {
+        if (servicesSwiper.isBeginning) servicesSwiper.slideTo(servicesSwiper.slides.length - 1);
+        else servicesSwiper.slidePrev();
+      }
+    });
+  }
+
+  const reviewsEl = document.getElementById('reviews-swiper');
+  if (reviewsEl && hasSwiper) {
+    new window.Swiper(reviewsEl, {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      loop: true,
+      grabCursor: true,
+      touchAngle: 35,
+      a11y: {
+        enabled: true,
+        prevSlideMessage: 'Previous customer review',
+        nextSlideMessage: 'Next customer review',
+      },
+      keyboard: {
+        enabled: true,
+        onlyInViewport: true,
+      },
+      navigation: {
+        nextEl: '.reviews-next',
+        prevEl: '.reviews-prev',
+      },
+      pagination: {
+        el: '.reviews-pagination',
+        clickable: true,
+      },
     });
   }
 
@@ -220,14 +234,14 @@ document.addEventListener('DOMContentLoaded', () => {
      5. Sticky Header Scroll State & Active Nav Highlight
      -------------------------------------------------------------------------- */
   const header = document.getElementById('site-header');
-  const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+  const navLinks = Array.from(document.querySelectorAll('.nav-link[href^="#"]'));
   const observedSections = navLinks
     .map((link) => document.querySelector(link.getAttribute('href')))
     .filter(Boolean);
 
   const onScrollHeader = () => {
     if (!header) return;
-    header.classList.toggle('is-scrolled', window.scrollY > 24);
+    header.classList.toggle('is-scrolled', window.scrollY > 18);
   };
   window.addEventListener('scroll', onScrollHeader, { passive: true });
   onScrollHeader();
@@ -243,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         });
       },
-      { rootMargin: '-35% 0px -55% 0px' }
+      { rootMargin: '-32% 0px -56% 0px' }
     );
     observedSections.forEach((sec) => observer.observe(sec));
   }
@@ -367,7 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const panel = panelId ? document.getElementById(panelId) : null;
       if (!panel) return;
 
-      // Collapse siblings for clean scannability
       faqTriggers.forEach((other) => {
         if (other === trigger) return;
         other.setAttribute('aria-expanded', 'false');
@@ -408,7 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     quoteForm.addEventListener('submit', (event) => {
-      event.preventDefault(); // Static UI only — no network submission
+      event.preventDefault();
 
       let firstInvalid = null;
 
@@ -457,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const waUrl = `https://wa.me/2349067270530?text=${encodeURIComponent(waMessage)}`;
 
       formStatus.hidden = false;
-      formStatus.innerHTML = `Your quote summary is ready (this demo form is not connected to email yet). <a href="${waUrl}" target="_blank" rel="noopener noreferrer">Tap here to send these exact details on WhatsApp</a> or call <a href="tel:+2349067270530">+234 906 727 0530</a>.`;
+      formStatus.innerHTML = `Your quote summary is ready (this demo form is not connected to email yet). <a href="${waUrl}" target="_blank" rel="noopener noreferrer">Tap here to send these details on WhatsApp</a> or call <a href="tel:+2349067270530">+234 906 727 0530</a>.`;
     });
   }
 });
